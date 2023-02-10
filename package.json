@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "MQTT clients for robot control",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/log101/mqtt-robot-controller/issues"
   },
-  "homepage": "https://github.com/log101/mqtt-robot-controller#readme"
+  "homepage": "https://github.com/log101/mqtt-robot-controller#readme",
+  "dependencies": {
+    "amqplib": "^0.10.3"
+  }
 }
