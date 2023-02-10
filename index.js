@@ -11,7 +11,7 @@ const sendMessages = async () => {
         clean: true,
     };
 
-    const connection = await mqtt.connectAsync('mqtt://mqtt-user:mqtt-user@localhost:1883', options);
+    const connection = await mqtt.connectAsync('mqtt://guest:guest@localhost:1883', options);
 
     try {
         let question = new enq.Input({
