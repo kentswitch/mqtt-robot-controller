@@ -1,0 +1,23 @@
+{
+  "name": "mqtt-robot-controller",
+  "version": "1.0.0",
+  "description": "MQTT clients for robot control",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/log101/mqtt-robot-controller.git"
+  },
+  "keywords": [
+    "mqtt",
+    "esp32"
+  ],
+  "author": "Furkan ERDEM",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/log101/mqtt-robot-controller/issues"
+  },
+  "homepage": "https://github.com/log101/mqtt-robot-controller#readme"
+}
