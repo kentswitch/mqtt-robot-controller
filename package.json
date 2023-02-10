@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/log101/mqtt-robot-controller#readme",
   "dependencies": {
-    "amqplib": "^0.10.3"
+    "async-mqtt": "^2.6.3",
+    "mqtt": "^4.3.7"
   }
 }
