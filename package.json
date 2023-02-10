@@ -24,6 +24,7 @@
   "homepage": "https://github.com/log101/mqtt-robot-controller#readme",
   "dependencies": {
     "async-mqtt": "^2.6.3",
+    "enquirer": "^2.3.6",
     "mqtt": "^4.3.7"
   }
 }

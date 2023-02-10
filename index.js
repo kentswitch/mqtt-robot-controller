@@ -1,8 +1,5 @@
 import mqtt from 'async-mqtt';
-
-function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
+import enq from 'enquirer';
 
 const sendMessages = async () => {
 
@@ -16,25 +13,25 @@ const sendMessages = async () => {
 
     const connection = await mqtt.connectAsync('mqtt://mqtt-user:mqtt-user@localhost:1883', options);
 
-    console.log("Starting");
-	try {
-		await connection.publish("moves", '1');
-		console.log("Done sending message: 1");
-        await delay(1000);
+    try {
+        let question = new enq.Input({
+            name: 'move',
+            message: 'Robotun hangi yöne gitmesini istiyorsunuz?'
+        });
 
-        await connection.publish("moves", '0');
-		console.log("Done sending message: 0");
-        await delay(1000);
-	} catch (e){
-		// Do something about it!
-		console.log(e.stack);
-		process.exit();
-	}
+        let move = await question.run();
+
+        await connection.publish("moves", move);
+    } catch (e) {
+        // Do something about it!
+        console.log(e.stack);
+        process.exit();
+    }
 }
 
 // Async function to connect to RabbitMQ and send a message
 async function main() {
-    while(true){
+    while (true) {
         await sendMessages();
     }
 }
