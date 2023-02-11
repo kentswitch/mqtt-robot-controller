@@ -13,6 +13,16 @@ const sendMessages = async () => {
 
     const connection = await mqtt.connectAsync('mqtt://guest:guest@localhost:1883', options);
 
+    /*
+    // Subscribe to the topic 'feedback'
+    connection.subscribe('feedback');
+
+    // listen for messages
+    connection.on('message', function (topic, message) {
+        console.log(`\nMessage recived ${message.toString()} from topic ${topic.toString()}`);
+    });
+    */
+
     try {
         let question = new enq.Input({
             name: 'move',

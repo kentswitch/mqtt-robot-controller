@@ -20,10 +20,10 @@ const int motorPin1 = 27;
 const int motorPin2 = 26;
 const int enablePin = 14; // PWM Control Pins
 
-// Motor-2
+// Motor-2sdasdasdsad
 const int motorPin3 = 17;
 const int motorPin4 = 16;
-const int enablePin2 = 4; // PWM Control Pins
+const int enablePin2 = 4; // PWM Control asdasdPins
 
 // Setting PWM properties
 const int freq = 30000;
@@ -89,6 +89,7 @@ int moveIndex = 0;
 void executeMoves()
 {
   Serial.println("Exacuting Moves");
+  client.publish("feedback", "Executing Moves");
 
   for (int m = 0; m < 100; m++)
   {
@@ -146,10 +147,12 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
 
   moves[moveIndex] = (char)payload[0];
   Serial.println(moves[moveIndex]);
+  client.publish("feedback", "Recieved move is: " + moves[moveIndex]);
 
   if (moves[moveIndex] == 'p')
   {
     Serial.println("p Detected");
+    client.publish("feedback", "p Detected");
     executeMoves();
     moveIndex = 0;
   }
@@ -171,6 +174,7 @@ void mqttconnect()
     if (client.connect(clientId.c_str(), "guest", "guest"))
     {
       Serial.println("connected");
+      client.publish("feedback", "MQTT connected");
       /* subscribe topic with default QoS 0*/
       client.subscribe(topic);
     }
@@ -215,6 +219,7 @@ void setup()
 
   Serial.println("");
   Serial.println("WiFi connected");
+  client.publish("feedback", "WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
