@@ -149,6 +149,7 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
   
   if (moves[moveIndex] == 'p')
   {
+    Serial.println("p Detected");
     executeMoves();
     moveIndex = 0;
     
