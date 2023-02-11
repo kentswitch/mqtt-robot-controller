@@ -14,11 +14,77 @@ const char* topic = "moves";
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-long lastMsg = 0;
-char msg[20];
+// ########## MOTOR CONTROL ##########
+// Motor-1
+const int motorPin1 = 27; 
+const int motorPin2 = 26; 
+const int enablePin = 14; // PWM Control Pins
 
-const int led1 = 26;
-const int led2 = 27;
+// Motor-2 
+const int motorPin3 = 17;
+const int motorPin4 = 16;
+const int enablePin2 = 4; // PWM Control Pins 
+
+
+// Setting PWM properties
+const int freq = 30000;
+const int pwmChannel1 = enablePin;
+const int pwmChannel2 = enablePin2;
+const int resolution = 8;
+
+
+
+// ########## Direction Functions ###########
+
+void rigth(){
+digitalWrite(motorPin1,HIGH);
+digitalWrite(motorPin2,LOW); 
+digitalWrite(motorPin3,LOW);
+digitalWrite(motorPin4,LOW);
+}
+
+void left(){
+digitalWrite(motorPin1,LOW);
+digitalWrite(motorPin2,LOW);
+digitalWrite(motorPin3,HIGH);
+digitalWrite(motorPin4,LOW);
+  
+}
+
+void forward(){
+digitalWrite(motorPin1,HIGH);
+digitalWrite(motorPin2,LOW);
+digitalWrite(motorPin3,HIGH);
+digitalWrite(motorPin4,LOW);
+}
+
+void backward(){
+  digitalWrite(motorPin1,LOW);
+digitalWrite(motorPin2,HIGH);
+digitalWrite(motorPin3,LOW);
+digitalWrite(motorPin4,HIGH);
+}
+
+void allLow(){
+digitalWrite(motorPin1,LOW);
+digitalWrite(motorPin2,LOW);
+digitalWrite(motorPin3,LOW);
+digitalWrite(motorPin4,LOW);
+}
+
+ // ########## Duty Cycle PWM ##########
+int dutyCycle1 = 200;
+int dutyCycle2 = 200;
+
+unsigned long currentTime = millis();
+// Previous time
+unsigned long previousTime = 0; 
+// Define timeout time in milliseconds (example: 2000ms = 2s)
+const long timeoutTime = 2000;
+
+char moves[100];
+
+
 
 void receivedCallback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message received: ");
@@ -29,14 +95,37 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
     Serial.print((char)payload[i]);
   }
   Serial.println();
-  /* we got '1' -> on */
-  if ((char)payload[0] == '1') {
-    digitalWrite(led1, HIGH); 
-  } else {
-    /* we got '0' -> on */
-    digitalWrite(led1, LOW);
-  }
+  for (int i = 0; i < 100; i++){
+    moves[i] = (char)payload[i];
+    if (moves[i] == 'p'){
+      break;
+    }
 
+  }
+  for(int m = 0; m < 100; m++){
+    if (moves[m] == 'r'){
+      rigth();
+    }
+    else if (moves[m] == 'l'){
+      left();
+    }
+    else if (moves[m] == 'f'){
+      forward();
+    }
+    else if (moves[m] == 'b'){
+      backward();
+    }
+    else if (moves[m] == 's'){
+      allLow();
+    }
+    else if (moves[m] == 'p'){
+      break;
+    }
+    else{
+      Serial.println("Error");
+    }
+  }
+  
 }
 
 void mqttconnect() {
@@ -74,7 +163,17 @@ void setup() {
     Serial.print(".");
   }
   /* set led as output to control led on-off */
-  pinMode(led1, OUTPUT);
+   pinMode(motorPin1, OUTPUT);
+  pinMode(motorPin2, OUTPUT);
+  pinMode(enablePin, OUTPUT);
+  pinMode(motorPin3, OUTPUT);
+  pinMode(motorPin4, OUTPUT);
+  pinMode(enablePin2, OUTPUT);
+
+  digitalWrite(motorPin1,LOW);
+  digitalWrite(motorPin2,LOW);
+  digitalWrite(motorPin3,LOW);
+  digitalWrite(motorPin4,LOW);
 
   Serial.println("");
   Serial.println("WiFi connected");
