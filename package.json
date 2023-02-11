@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "start-rabbitmq": "sudo docker run -d --rm --name rabbitmq -p 5672:5672 -p 15672:15672 -p 1883:1883 rabbitmq:3.11-management",
+    "enable-mqtt": "sudo docker exec rabbitmq rabbitmq-plugins enable rabbitmq_mqtt"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,8 @@
   },
   "homepage": "https://github.com/log101/mqtt-robot-controller#readme",
   "dependencies": {
-    "amqplib": "^0.10.3"
+    "async-mqtt": "^2.6.3",
+    "enquirer": "^2.3.6",
+    "mqtt": "^4.3.7"
   }
 }
