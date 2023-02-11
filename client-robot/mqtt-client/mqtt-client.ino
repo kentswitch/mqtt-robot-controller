@@ -31,7 +31,7 @@ const int pwmChannel1 = enablePin;
 const int pwmChannel2 = enablePin2;
 const int resolution = 8;
 
-// ########## Direction Functions ###########
+// ########## Direction Functions ###########/
 
 void rigth()
 {
