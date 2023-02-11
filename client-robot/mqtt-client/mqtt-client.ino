@@ -7,7 +7,13 @@ const char* ssid = "Movsec 2";
 const char* password = "movsec2022!";
 /* this is the IP of PC/raspberry where you installed MQTT Server 
 on Wins use "ipconfig" 
+const char* ssid = "Movsec 2";
+const char* password = "movsec2022!";
+/* this is the IP of PC/raspberry where you installed MQTT Server 
+on Wins use "ipconfig" 
 on Linux use "ifconfig" to get its IP address */
+const char* mqtt_server = "192.168.1.55";
+const char* topic = "moves";
 const char* mqtt_server = "192.168.1.55";
 const char* topic = "moves";
 /* create an instance of PubSubClient client */
@@ -16,6 +22,8 @@ PubSubClient client(espClient);
 
 // ########## MOTOR CONTROL ##########
 // Motor-1
+const int motorPin1 = 27; 
+const int motorPin2 = 26; 
 const int motorPin1 = 27; 
 const int motorPin2 = 26; 
 const int enablePin = 14; // PWM Control Pins
@@ -33,6 +41,8 @@ const int resolution = 8;
 
 
 
+
+
 // ########## Direction Functions ###########
 
 void rigth(){
@@ -40,7 +50,19 @@ digitalWrite(motorPin1,HIGH);
 digitalWrite(motorPin2,LOW); 
 digitalWrite(motorPin3,LOW);
 digitalWrite(motorPin4,LOW);
+void rigth(){
+digitalWrite(motorPin1,HIGH);
+digitalWrite(motorPin2,LOW); 
+digitalWrite(motorPin3,LOW);
+digitalWrite(motorPin4,LOW);
 }
+
+void left(){
+digitalWrite(motorPin1,LOW);
+digitalWrite(motorPin2,LOW);
+digitalWrite(motorPin3,HIGH);
+digitalWrite(motorPin4,LOW);
+  
 
 void left(){
 digitalWrite(motorPin1,LOW);
@@ -55,8 +77,18 @@ digitalWrite(motorPin1,HIGH);
 digitalWrite(motorPin2,LOW);
 digitalWrite(motorPin3,HIGH);
 digitalWrite(motorPin4,LOW);
+void forward(){
+digitalWrite(motorPin1,HIGH);
+digitalWrite(motorPin2,LOW);
+digitalWrite(motorPin3,HIGH);
+digitalWrite(motorPin4,LOW);
 }
 
+void backward(){
+  digitalWrite(motorPin1,LOW);
+digitalWrite(motorPin2,HIGH);
+digitalWrite(motorPin3,LOW);
+digitalWrite(motorPin4,HIGH);
 void backward(){
   digitalWrite(motorPin1,LOW);
 digitalWrite(motorPin2,HIGH);
@@ -69,8 +101,14 @@ digitalWrite(motorPin1,LOW);
 digitalWrite(motorPin2,LOW);
 digitalWrite(motorPin3,LOW);
 digitalWrite(motorPin4,LOW);
+void allLow(){
+digitalWrite(motorPin1,LOW);
+digitalWrite(motorPin2,LOW);
+digitalWrite(motorPin3,LOW);
+digitalWrite(motorPin4,LOW);
 }
 
+ // ########## Duty Cycle PWM ##########
  // ########## Duty Cycle PWM ##########
 int dutyCycle1 = 200;
 int dutyCycle2 = 200;
@@ -78,10 +116,19 @@ int dutyCycle2 = 200;
 unsigned long currentTime = millis();
 // Previous time
 unsigned long previousTime = 0; 
+unsigned long previousTime = 0; 
 // Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
 
 char moves[100];
+void test(){
+  rigth();
+forward();
+backward();
+left();
+}
+
+
 void test(){
   rigth();
 forward();
@@ -109,27 +156,46 @@ void executeMoves()
     if (moves[i] == 'p'){
       break;
     }
+  Serial.print("payload: ");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+  for (int i = 0; i < 100; i++){
+    moves[i] = (char)payload[i];
+    if (moves[i] == 'p'){
+      break;
+    }
 
+  }
+  for(int m = 0; m < 100; m++){
+    if (moves[m] == 'r'){
   }
   for(int m = 0; m < 100; m++){
     if (moves[m] == 'r'){
       rigth();
     }
     else if (moves[m] == 'l'){
+    else if (moves[m] == 'l'){
       left();
     }
+    else if (moves[m] == 'f'){
     else if (moves[m] == 'f'){
       forward();
     }
     else if (moves[m] == 'b'){
+    else if (moves[m] == 'b'){
       backward();
     }
+    else if (moves[m] == 's'){
     else if (moves[m] == 's'){
       allLow();
     }
     else if (moves[m] == 'p'){
+    else if (moves[m] == 'p'){
       break;
     }
+    else{
     else{
       Serial.println("Error");
     }
@@ -174,10 +240,12 @@ void mqttconnect() {
     String clientId = "ESP32Client";
     /* connect now */
     if (client.connect(clientId.c_str(), "guest", "guest")) {
+    if (client.connect(clientId.c_str(), "guest", "guest")) {
       Serial.println("connected");
       client.publish("feedback", "MQTT connected");
       /* subscribe topic with default QoS 0*/
       client.subscribe(topic);
+    } else {
     } else {
       Serial.print("failed, status code =");
       Serial.print(client.state());
