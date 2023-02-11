@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <driver/ledc.h>
+#include <LinkedList.h>
 
 /* change it with your ssid-password */
 const char *ssid = "Movsec 2";
@@ -83,8 +84,9 @@ unsigned long previousTime = 0;
 // Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
 
-char moves[100];
-int moveIndex = 0;
+// Define linked list
+LinkedList<char> moves = LinkedList<char>();
+
 
 void executeMoves()
 {
@@ -93,32 +95,32 @@ void executeMoves()
   {
     Serial.println(moves[m]);
 
-    if (moves[m] == 'r')
+    if (moves.get(m) == 'r')
     {
       Serial.println("r");
       rigth();
     }
-    else if (moves[m] == 'l')
+    else if (moves.get(m) == 'l')
     {
       Serial.println("l");
       left();
     }
-    else if (moves[m] == 'f')
+    else if (moves.get(m) == 'f')
     {
       Serial.println("f");
       forward();
     }
-    else if (moves[m] == 'b')
+    else if (moves.get(m) == 'b')
     {
       Serial.println("b");
       backward();
     }
-    else if (moves[m] == 's')
+    else if (moves.get(m) == 's')
     {
       Serial.println("s");
       allLow();
     }
-    else if (moves[m] == 'p')
+    else if (moves.get(m) == 'p')
     {
       Serial.println("p");
       break;
@@ -136,21 +138,12 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
   Serial.println(topic);
 
   Serial.print("payload: ");
-  for (int i = 0; i < length; i++)
+  moves.add((char)payload[0]);
+  if (moves.get((moves.size() - 1)) == 'p')
   {
-    Serial.print((char)payload[i]);
-  }
-
-  Serial.println();
-
-  moves[movesIndex] = (char)payload[0];
-  movesIndex++;
-  
-  if (moves[i] == 'p')
-  {
+    Serial.println("y2lmz");
     executeMoves();
-    movesIndex = 0;
-    break;
+    moves.clear();
   }
 }
 
