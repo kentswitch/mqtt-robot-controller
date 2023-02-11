@@ -145,16 +145,17 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
   Serial.println();
 
   moves[moveIndex] = (char)payload[0];
-  
-  
+  Serial.println(moves[moveIndex]);
+
   if (moves[moveIndex] == 'p')
   {
     Serial.println("p Detected");
     executeMoves();
     moveIndex = 0;
-    
-  }else {
-    moveIndex++; 
+  }
+  else
+  {
+    moveIndex++;
   }
 }
 
