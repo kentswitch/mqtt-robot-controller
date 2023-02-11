@@ -88,6 +88,7 @@ int moveIndex = 0;
 
 void executeMoves()
 {
+  Serial.println("Exacuting Moves");
 
   for (int m = 0; m < 100; m++)
   {
@@ -143,14 +144,14 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
 
   Serial.println();
 
-  moves[movesIndex] = (char)payload[0];
-  movesIndex++;
+  moves[moveIndex] = (char)payload[0];
+  moveIndex++;
   
-  if (moves[i] == 'p')
+  if (moves[moveIndex] == 'p')
   {
     executeMoves();
-    movesIndex = 0;
-    break;
+    moveIndex = 0;
+    
   }
 }
 
