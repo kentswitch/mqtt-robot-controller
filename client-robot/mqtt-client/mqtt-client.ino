@@ -84,31 +84,9 @@ unsigned long previousTime = 0;
 const long timeoutTime = 2000;
 
 char moves[100];
-
-void receivedCallback(char *topic, byte *payload, unsigned int length)
-{
-  Serial.print("Message received: ");
-  Serial.println(topic);
-
-  Serial.print("payload: ");
-  for (int i = 0; i < length; i++)
-  {
-    Serial.print((char)payload[i]);
-  }
-
-  Serial.println();
-  for (int i = 0; i < 100; i++)
-  {
-    moves[i] = (char)payload[i];
-    if (moves[i] == 'p')
-    {
-      break;
-    }
-  }
-
-  for (int m = 0; m < 100; m++)
-  {
-    Serial.print("MOVE IS: ");
+void executeMoves(){
+  
+  for(int m = 0; m < 100; m++){
     Serial.println(moves[m]);
 
     if (moves[m] == 'r')
@@ -146,6 +124,27 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
       Serial.println("Error");
     }
   }
+}
+
+void receivedCallback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message received: ");
+  Serial.println(topic);
+
+  Serial.print("payload: ");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+
+  Serial.println();
+  for (int i = 0; i < 100; i++){
+    moves[i] = (char)payload[i];
+    if (moves[i] == 'p'){
+      break;
+    }
+  }
+  executeMoves();
+
+  
 }
 
 void mqttconnect()
