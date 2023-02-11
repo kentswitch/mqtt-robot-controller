@@ -145,7 +145,7 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
   Serial.println();
 
   moves[moveIndex] = (char)payload[0];
-  moveIndex++;
+  
   
   if (moves[moveIndex] == 'p')
   {
@@ -153,6 +153,8 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
     executeMoves();
     moveIndex = 0;
     
+  }else {
+    moveIndex++; 
   }
 }
 
