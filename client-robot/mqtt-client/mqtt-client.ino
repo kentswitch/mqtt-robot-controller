@@ -25,14 +25,11 @@ const int motorPin3 = 17;
 const int motorPin4 = 16;
 const int enablePin2 = 4; // PWM Control Pins 
 
-
 // Setting PWM properties
 const int freq = 30000;
 const int pwmChannel1 = enablePin;
 const int pwmChannel2 = enablePin2;
 const int resolution = 8;
-
-
 
 // ########## Direction Functions ###########
 
@@ -84,8 +81,6 @@ const long timeoutTime = 2000;
 
 char moves[100];
 
-
-
 void receivedCallback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message received: ");
   Serial.println(topic);
@@ -94,31 +89,40 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
+
   Serial.println();
   for (int i = 0; i < 100; i++){
     moves[i] = (char)payload[i];
     if (moves[i] == 'p'){
       break;
     }
-
   }
+
   for(int m = 0; m < 100; m++){
+    Serial.println(moves[m]);
+
     if (moves[m] == 'r'){
+      Serial.println("r");
       rigth();
     }
     else if (moves[m] == 'l'){
+      Serial.println("l");
       left();
     }
     else if (moves[m] == 'f'){
+      Serial.println("f");
       forward();
     }
     else if (moves[m] == 'b'){
+      Serial.println("b");
       backward();
     }
     else if (moves[m] == 's'){
+      Serial.println("s");
       allLow();
     }
     else if (moves[m] == 'p'){
+      Serial.println("p");
       break;
     }
     else{
