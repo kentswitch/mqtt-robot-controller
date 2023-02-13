@@ -99,7 +99,7 @@ void executeMoves()
 
   for (int m = 0; m < 100; m++)
   {
-    Serial.println(moves[m]);
+    Serial.println(moves.get(m));
 
     if (moves.get(m) == 'r')
     {
@@ -143,8 +143,9 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
   Serial.print("Message received: ");
   Serial.println(topic);
 
-  Serial.print("payload: ");
+  Serial.println("payload: ");
   moves.add((char)payload[0]);
+  Serial.println((char)payload[0]);
   if (moves.get((moves.size() - 1)) == 'p')
   {
     Serial.println("y2lmz");
