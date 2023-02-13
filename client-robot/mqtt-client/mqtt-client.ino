@@ -145,7 +145,7 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
 
   Serial.println("payload: ", (char)payload[0]);
   moves.add((char)payload[0]);
-  //Serial.println((char)payload[0]);
+  Serial.println((char)payload[0]);
   if (moves.get((moves.size() - 1)) == 'p')
   {
     Serial.println("y2lmz");
