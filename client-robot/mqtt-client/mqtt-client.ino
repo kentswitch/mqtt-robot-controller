@@ -190,11 +190,11 @@ void mqttconnect()
   }
 }
 
+// ############## Direction & Location Detection ############
 
 
-
-
-
+ // Buradaki x ve y degerlerini map de yerine koyarsak net lokasyonu bulmus oluruz. 
+ // Algoritmada problem yok ama buyuk ihtimalle hafizada konumun tutulmasiyla ilgili bir problem cikacak. 
 
 int direction = 0;
 void checkDirection(){
@@ -216,6 +216,7 @@ for int n=0; n<100; n++{
 return direction;
 } 
 
+// ############## Location ############## 
 int map[5][5]; 
 int x = 0;
 int y = 0;
@@ -249,11 +250,8 @@ void findLocation(){
 
   }
  
- return x,y; 
- // Buradaki x ve y degerlerini map de yerine koyarsak net lokasyonu bulmus oluruz. 
- // Algoritmada problem yok ama buyuk ihtimalle hafizada konumun tutulmasiyla ilgili bir problem cikacak. 
- 
  }
+ return x,y; 
 
 }
 
