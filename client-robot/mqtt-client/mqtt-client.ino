@@ -190,6 +190,77 @@ void mqttconnect()
   }
 }
 
+// ############## Direction & Location Detection ############
+
+
+ // Buradaki x ve y degerlerini map de yerine koyarsak net lokasyonu bulmus oluruz. 
+ // Algoritmada problem yok ama buyuk ihtimalle hafizada konumun tutulmasiyla ilgili bir problem cikacak. 
+
+int direction = 0;
+
+void checkDirection(){
+for int n=0; n<100; n++{
+  if (moves.get(n)== 'r'){
+    direction = direction + 90;
+
+  }else if (moves.get(n)== 'l'){
+    direction = direction - 90;
+ } 
+ if direction => 360{
+   direction = direction -360;
+ } 
+ if (moves.get(n)== 'p'){
+   break;
+ }
+
+}
+return direction;
+} 
+
+// ############## Location ############## 
+int map[5][5]; 
+int x = 0;
+int y = 0;
+
+void findLocation(){
+
+ for int m = 0; m<100; m++{
+  currenDirection = checkDirection();
+  if (moves.get(m)== 'f'){
+    if (currenDirection == 0){
+      y = y + 1;
+    }else if (currenDirection == 90){
+      x = x + 1;
+    }else if (currenDirection == 180){
+      y = y - 1;
+    }else if (currenDirection == 270){
+      x = x - 1;
+    }
+  }else if (moves.get(m)== 'b'){
+    if (currenDirection == 0){
+      y = y - 1;
+    }else if (currenDirection == 90){
+      x = x - 1;
+    }else if (currenDirection == 180){
+      y = y + 1;
+    }else if (currenDirection == 270){
+      x = x + 1;
+    }
+  }else if (moves.get(m)== 'p'){
+    break;
+
+  }
+ Serial.println(x);
+  Serial.println(y);
+ }
+ return x,y; 
+
+}
+
+
+
+
+
 void setup()
 {
   Serial.begin(115200);
