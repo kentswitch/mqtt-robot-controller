@@ -1,7 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <driver/ledc.h>
-#include <LinkedList.h>
 
 /* change it with your ssid-password */
 const char *ssid = "Movsec 2";
@@ -89,9 +88,8 @@ unsigned long previousTime = 0;
 // Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
 
-// Define linked list
-LinkedList<char> moves = LinkedList<char>();
-
+char moves[100];
+int moveIndex = 0;
 
 void executeMoves()
 {
@@ -99,34 +97,34 @@ void executeMoves()
 
   for (int m = 0; m < 100; m++)
   {
-    Serial.println(moves.get(m));
+    Serial.println(moves[m]);
 
-    if (moves.get(m) == 'r')
+    if (moves[m] == 'r')
     {
       Serial.println("r");
       rigth();
     }
-    else if (moves.get(m) == 'l')
+    else if (moves[m] == 'l')
     {
       Serial.println("l");
       left();
     }
-    else if (moves.get(m) == 'f')
+    else if (moves[m] == 'f')
     {
       Serial.println("f");
       forward();
     }
-    else if (moves.get(m) == 'b')
+    else if (moves[m] == 'b')
     {
       Serial.println("b");
       backward();
     }
-    else if (moves.get(m) == 's')
+    else if (moves[m] == 's')
     {
       Serial.println("s");
       allLow();
     }
-    else if (moves.get(m) == 'p')
+    else if (moves[m] == 'p')
     {
       Serial.println("p");
       break;
@@ -143,14 +141,26 @@ void receivedCallback(char *topic, byte *payload, unsigned int length)
   Serial.print("Message received: ");
   Serial.println(topic);
 
-  Serial.println("payload: ", (char)payload[0]);
-  moves.add((char)payload[0]);
-  Serial.println((char)payload[0]);
-  if (moves.get((moves.size() - 1)) == 'p')
+  Serial.print("payload: ");
+  for (int i = 0; i < length; i++)
   {
-    Serial.println("y2lmz");
+    Serial.print((char)payload[i]);
+  }
+
+  Serial.println();
+
+  moves[moveIndex] = (char)payload[0];
+  Serial.println(moves[moveIndex]);
+
+  if (moves[moveIndex] == 'p')
+  {
+    Serial.println("p detected");
     executeMoves();
-    moves.clear();
+    moveIndex = 0;
+  }
+  else
+  {
+    moveIndex++;
   }
 }
 

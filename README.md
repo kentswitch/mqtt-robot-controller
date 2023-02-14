@@ -11,4 +11,3 @@ Enable mqtt on RabbitMQ
 
 Start the project
 `npm start`
-link_list_yusuf branch will be applied on HasanKayan branch 
