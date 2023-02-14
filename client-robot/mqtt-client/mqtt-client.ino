@@ -197,6 +197,7 @@ void mqttconnect()
  // Algoritmada problem yok ama buyuk ihtimalle hafizada konumun tutulmasiyla ilgili bir problem cikacak. 
 
 int direction = 0;
+
 void checkDirection(){
 for int n=0; n<100; n++{
   if (moves.get(n)== 'r'){
@@ -249,7 +250,8 @@ void findLocation(){
     break;
 
   }
- 
+ Serial.println(x);
+  Serial.println(y);
  }
  return x,y; 
 
