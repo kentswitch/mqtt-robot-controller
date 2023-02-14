@@ -40,7 +40,6 @@ void rigth()
   digitalWrite(motorPin2, LOW);
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, LOW);
-  delay(2000);
 }
 
 void left()
@@ -49,7 +48,6 @@ void left()
   digitalWrite(motorPin2, LOW);
   digitalWrite(motorPin3, HIGH);
   digitalWrite(motorPin4, LOW);
-  delay(2000);
 }
 
 void forward()
@@ -58,7 +56,6 @@ void forward()
   digitalWrite(motorPin2, LOW);
   digitalWrite(motorPin3, HIGH);
   digitalWrite(motorPin4, LOW);
-  delay(2000);
 }
 
 void backward()
@@ -67,7 +64,6 @@ void backward()
   digitalWrite(motorPin2, HIGH);
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, HIGH);
-  delay(2000);
 }
 
 void allLow()
@@ -76,7 +72,6 @@ void allLow()
   digitalWrite(motorPin2, LOW);
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, LOW);
-  delay(2000);
 }
 
 // ########## Duty Cycle PWM ##########
@@ -95,7 +90,7 @@ LinkedList<char> moves = LinkedList<char>();
 
 void executeMoves()
 {
-  Serial.println("Executing Moves");
+  Serial.println("Exacuting Moves");
 
   for (int m = 0; m < 100; m++)
   {
@@ -291,7 +286,6 @@ void setup()
 
 void loop()
 {
-  allLow();
   /* if client was disconnected then try to reconnect again */
   if (!client.connected())
   {
