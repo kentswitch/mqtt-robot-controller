@@ -40,6 +40,10 @@ void rigth()
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, LOW);
   delay(2000);
+  allLow();
+  delay(1000);
+  
+  
 }
 
 void left()
@@ -49,6 +53,8 @@ void left()
   digitalWrite(motorPin3, HIGH);
   digitalWrite(motorPin4, LOW);
   delay(2000);
+  allLow();
+  delay(1000);
 }
 
 void forward()
@@ -58,6 +64,8 @@ void forward()
   digitalWrite(motorPin3, HIGH);
   digitalWrite(motorPin4, LOW);
   delay(2000);
+  allLow();
+  delay(1000);
 }
 
 void backward()
@@ -67,6 +75,8 @@ void backward()
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, HIGH);
   delay(2000);
+  allLow();
+  delay(1000);
 }
 
 void allLow()
@@ -76,6 +86,7 @@ void allLow()
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, LOW);
   delay(2000);
+  
 }
 
 // ########## Duty Cycle PWM ##########
@@ -228,11 +239,21 @@ void setup()
   /* this receivedCallback function will be invoked
   when client received subscribed topic */
   client.setCallback(receivedCallback);
+
+    // configure LED PWM functionalitites
+  ledcSetup(enablePin, freq, resolution);
+  ledcAttachPin(14, enablePin);
+  ledcWrite(enablePin, dutyCycle1);
+
+  // Initialize PWM for channel 2
+  ledcSetup(enablePin2, freq, resolution);
+  ledcAttachPin(4, enablePin2);
+  ledcWrite(enablePin2, dutyCycle2);
 }
 
 void loop()
 {
-  allLow();
+  
   /* if client was disconnected then try to reconnect again */
   if (!client.connected())
   {
