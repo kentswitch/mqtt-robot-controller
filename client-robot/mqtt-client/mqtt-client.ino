@@ -104,14 +104,14 @@ char moves[100];
 int moveIndex = 0;
 int cordinate[2] = {0,0};
 int startDirection = 1;
-int nextdirection;
+int nextdirection= 1;
 void executeMoves()
 {
   Serial.println("Executing Moves");
 
   for (int m = 0; m < 100; m++)
   {
-    nextdirection = directionDefine(moves[m],startDirection);
+    nextdirection = directionDefine(moves[m],nextdirection);
     Serial.println(moves[m]);
     if (moves[m] == 'r')
     {
