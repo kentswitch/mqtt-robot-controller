@@ -99,18 +99,20 @@ unsigned long currentTime = millis();
 unsigned long previousTime = 0;
 // Define timeout time in milliseconds (example: 2000ms = 2s)
 const long timeoutTime = 2000;
-
+// ######## Move and map parameters ######
 char moves[100];
 int moveIndex = 0;
-
+int cordinate[2] = {0,0};
+int startDirection = 1;
+int nextdirection;
 void executeMoves()
 {
   Serial.println("Executing Moves");
 
   for (int m = 0; m < 100; m++)
   {
+    nextdirection = directionDefine(moves[m],startDirection);
     Serial.println(moves[m]);
-
     if (moves[m] == 'r')
     {
       Serial.println("r");
@@ -125,6 +127,22 @@ void executeMoves()
     {
       Serial.println("f");
       forward();
+      if (nextdirection == '1')
+      {
+        cordinate[1]++;
+        }
+       if (nextdirection == '2')
+      {
+        cordinate[0]++;
+        }
+       if (nextdirection == '3')
+      {
+        cordinate[1]--;
+        }
+       if (nextdirection == '4')
+      {
+        cordinate[0]--;
+        }  
     }
     else if (moves[m] == 'b')
     {
@@ -145,6 +163,8 @@ void executeMoves()
     {
       Serial.println("Error");
     }
+    Serial.println(cordinate[0]);
+    Serial.println(cordinate[1]);
   }
 }
 
@@ -201,6 +221,39 @@ void mqttconnect()
     }
   }
 }
+char directionDefine(char currentMove, int currentDirection)
+{
+  int nextDirection;
+  if (currentMove == 'r')
+  {
+    if (currentDirection =! 4)
+    {
+      nextDirection = currentDirection + 1;
+      }
+    else
+    {
+      nextDirection = 1;
+     }
+       
+    }
+  if (currentMove == 'l')
+  {
+    if (currentDirection =! 1)
+    {
+      nextDirection = currentDirection - 1;
+      }
+      else
+      {
+        nextDirection = 4;
+        }
+       
+    }
+      if (currentMove == 'f')
+    {
+      nextDirection == currentDirection;
+      }
+      return nextDirection;  
+  } 
 
 void setup()
 {
